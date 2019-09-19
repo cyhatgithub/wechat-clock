@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinghao.dao.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.yinghao.domain.Course">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="start_time" jdbcType="TIME" property="startTime" />
+    <result column="end_time" jdbcType="TIME" property="endTime" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="teacher" jdbcType="VARCHAR" property="teacher" />
+    <result column="classroom" jdbcType="VARCHAR" property="classroom" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="isSingle" jdbcType="VARCHAR" property="issingle" />
+    <result column="user_open_id" jdbcType="VARCHAR" property="userOpenId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+  </resultMap>
+</mapper>
