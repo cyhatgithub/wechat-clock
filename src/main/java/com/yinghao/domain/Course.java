@@ -10,13 +10,13 @@ public class Course {
     private Integer id;
 
     /**
-     * 上课时间
+     * 上课时间（年月日是第一次上课的时间，用来计算星期几）
      */
     @Column(name = "start_time")
     private Date startTime;
 
     /**
-     * 下课时间
+     * 下课时间（年月日是第一次上课的时间，用来计算星期几）
      */
     @Column(name = "end_time")
     private Date endTime;
@@ -76,36 +76,36 @@ public class Course {
     }
 
     /**
-     * 获取上课时间
+     * 获取上课时间（年月日是第一次上课的时间，用来计算星期几）
      *
-     * @return start_time - 上课时间
+     * @return start_time - 上课时间（年月日是第一次上课的时间，用来计算星期几）
      */
     public Date getStartTime() {
         return startTime;
     }
 
     /**
-     * 设置上课时间
+     * 设置上课时间（年月日是第一次上课的时间，用来计算星期几）
      *
-     * @param startTime 上课时间
+     * @param startTime 上课时间（年月日是第一次上课的时间，用来计算星期几）
      */
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
     /**
-     * 获取下课时间
+     * 获取下课时间（年月日是第一次上课的时间，用来计算星期几）
      *
-     * @return end_time - 下课时间
+     * @return end_time - 下课时间（年月日是第一次上课的时间，用来计算星期几）
      */
     public Date getEndTime() {
         return endTime;
     }
 
     /**
-     * 设置下课时间
+     * 设置下课时间（年月日是第一次上课的时间，用来计算星期几）
      *
-     * @param endTime 下课时间
+     * @param endTime 下课时间（年月日是第一次上课的时间，用来计算星期几）
      */
     public void setEndTime(Date endTime) {
         this.endTime = endTime;

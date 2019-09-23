@@ -80,4 +80,11 @@ public class WxConstants {
     public static final String EVENT_TYPE     = "Event";
     public static final String EVENT_KEY      = "EventKey";
 
+    public static final String COURSE = "course";   //
+    public static final String CLASS_BEGIN_TIME = "begin";
+    public static final String CLASS_END_TIME = "end";
+    public static final String TEACHER = "teacher";
+    public static final String ADDRESS = "address";
+    public static final String REMARK = "remark";
+    public static final String DIFFMS = "diffMs";
 }
