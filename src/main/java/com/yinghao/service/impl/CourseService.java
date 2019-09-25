@@ -31,6 +31,15 @@ public class CourseService extends BaseService<Course> implements CourseServiceI
     @Value("${wechat.template.message.course.id}")
     private String courseTemplateId;
 
+    @Value("${notification.normal.minutes:120}")
+    private int normalMins;
+
+    @Value("${notification.warn.minutes:60}")
+    private int warnMins;
+
+    @Value("${notification.crit.minutes:10}")
+    private int critMins;
+
     private static final Logger logger = LoggerFactory.getLogger(CourseService.class);
 
     @Autowired
@@ -67,7 +76,7 @@ public class CourseService extends BaseService<Course> implements CourseServiceI
                     int diffMinutes = startDate.getMinutes() - now.getMinutes();
                     int diffSecond = startDate.getSeconds() - now.getSeconds();
                     int diffMs = diffHours * 60 * 60 * 1000 + diffMinutes * 60 * 1000 + diffSecond * 1000;
-                    if (diffMs < 60 * 60 * 1000 && diffMs > 0) {
+                    if (diffMs < normalMins * 60 * 1000 && diffMs > 0) {
                         Map<String, String> msg = generateMsg(course, diffMs);
                         WxMessageUtil.sendTemplateMsg(msg, courseTemplateId, course.getUserOpenId(), appId, appsecret);
                     }
@@ -83,15 +92,19 @@ public class CourseService extends BaseService<Course> implements CourseServiceI
         Date end = course.getEndTime();
         String startStr = DateUtil.dateFormat(start);
         String endStr = DateUtil.dateFormat(end);
+
+        msg.put(WxConstants.HEAD, "小钟有一门课程即将开始!");
         msg.put(WxConstants.CLASS_BEGIN_TIME, startStr);
         msg.put(WxConstants.CLASS_END_TIME, endStr);
         msg.put(WxConstants.ADDRESS, course.getClassroom());
-        if (diffMs < 10 * 60 * 1000) {
-            msg.put(WxConstants.REMARK, "距离上课还有不到十分钟.");
-        } else if (diffMs < 10 * 60 * 1000) {
-            msg.put(WxConstants.REMARK, "距离上课还有不到三十分钟.");
+
+        String remarkHead = String.format("距离上课还有%s分钟", diffMs/(60 * 1000));
+        if (diffMs < critMins * 60 * 1000) {
+            msg.put(WxConstants.REMARK, remarkHead);
+        } else if (diffMs < warnMins * 60 * 1000) {
+            msg.put(WxConstants.REMARK, remarkHead);
         } else {
-            msg.put(WxConstants.REMARK, "距离上课还有不到六十分钟.");
+            msg.put(WxConstants.REMARK, remarkHead);
         }
         return msg;
     }

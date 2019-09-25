@@ -1,6 +1,5 @@
 package com.yinghao.util;
 
-
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -61,7 +60,7 @@ public class WxMessageUtil {
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
                 .toUser(toUser)//要推送的用户openid
                 .templateId(templateId)//模版id
-                .url("https://www.baidu.com")//点击模版消息要访问的网址
+//                .url("https://www.baidu.com")//点击模版消息要访问的网址
                 .build();
         try {
             if (msgContent != null) {
