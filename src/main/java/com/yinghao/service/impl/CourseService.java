@@ -6,6 +6,7 @@ import com.yinghao.service.CourseServiceInter;
 import com.yinghao.util.DateUtil;
 import com.yinghao.util.WxConstants;
 import com.yinghao.util.WxMessageUtil;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,10 @@ public class CourseService extends BaseService<Course> implements CourseServiceI
     @Value("${wechat.template.message.course.id}")
     private String courseTemplateId;
 
-    @Value("${notification.normal.minutes:120}")
+    @Value("${notification.normal.minutes:60}")
     private int normalMins;
 
-    @Value("${notification.warn.minutes:60}")
+    @Value("${notification.warn.minutes:30}")
     private int warnMins;
 
     @Value("${notification.crit.minutes:10}")
@@ -77,7 +78,7 @@ public class CourseService extends BaseService<Course> implements CourseServiceI
                     int diffSecond = startDate.getSeconds() - now.getSeconds();
                     int diffMs = diffHours * 60 * 60 * 1000 + diffMinutes * 60 * 1000 + diffSecond * 1000;
                     if (diffMs < normalMins * 60 * 1000 && diffMs > 0) {
-                        Map<String, String> msg = generateMsg(course, diffMs);
+                        List<WxMpTemplateData> msg = generateMsg(course, diffMs);
                         WxMessageUtil.sendTemplateMsg(msg, courseTemplateId, course.getUserOpenId(), appId, appsecret);
                     }
                 }
@@ -85,27 +86,30 @@ public class CourseService extends BaseService<Course> implements CourseServiceI
         }
     }
 
-    private Map<String, String> generateMsg(Course course, long diffMs) {
-        Map<String, String> msg = new HashMap<>();
-        msg.put(WxConstants.COURSE, course.getCourseName());
+    private List<WxMpTemplateData> generateMsg(Course course, long diffMs) {
+        List<WxMpTemplateData> wxMpTemplateDatas = new ArrayList<>();
+//        Map<String, String> msg = new HashMap<>();
         Date start = course.getStartTime();
         Date end = course.getEndTime();
         String startStr = DateUtil.dateFormat(start);
         String endStr = DateUtil.dateFormat(end);
 
-        msg.put(WxConstants.HEAD, "小钟有一门课程即将开始!");
-        msg.put(WxConstants.CLASS_BEGIN_TIME, startStr);
-        msg.put(WxConstants.CLASS_END_TIME, endStr);
-        msg.put(WxConstants.ADDRESS, course.getClassroom());
+        wxMpTemplateDatas.add(new WxMpTemplateData(WxConstants.HEAD, "小钟有一门课程即将开始!"));
+        wxMpTemplateDatas.add(new WxMpTemplateData(WxConstants.COURSE, course.getCourseName()));
+        wxMpTemplateDatas.add(new WxMpTemplateData(WxConstants.CLASS_BEGIN_TIME, startStr));
+        wxMpTemplateDatas.add(new WxMpTemplateData(WxConstants.CLASS_END_TIME, endStr));
+        wxMpTemplateDatas.add(new WxMpTemplateData(WxConstants.ADDRESS, course.getClassroom()));
 
-        String remarkHead = String.format("距离上课还有%s分钟", diffMs/(60 * 1000));
+        String remarkHead = String.format("距离上课还有%s分钟!", diffMs/(60 * 1000));
         if (diffMs < critMins * 60 * 1000) {
-            msg.put(WxConstants.REMARK, remarkHead);
+            wxMpTemplateDatas.add(new WxMpTemplateData(WxConstants.REMARK, remarkHead, "#FF0000"));
+
         } else if (diffMs < warnMins * 60 * 1000) {
-            msg.put(WxConstants.REMARK, remarkHead);
+            wxMpTemplateDatas.add(new WxMpTemplateData(WxConstants.REMARK, remarkHead, "#FFA500"));
+
         } else {
-            msg.put(WxConstants.REMARK, remarkHead);
+            wxMpTemplateDatas.add(new WxMpTemplateData(WxConstants.REMARK, remarkHead, "#32CD32"));
         }
-        return msg;
+        return wxMpTemplateDatas;
     }
 }

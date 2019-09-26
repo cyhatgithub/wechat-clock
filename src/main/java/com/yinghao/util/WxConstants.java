@@ -34,20 +34,13 @@ public class WxConstants {
     public static final String CLICK_KEY_SYSTEM_SCAN = "3";//点击事件:账号解绑
 
     //  wechat's response message
-    public static final String MESG_BUNDING_GUARD     = "EMOJILEFT<a href='URL'>戳我</a>EMOJIRIGHT对当前微信账号进行绑定操作,成功绑定后可以接收系统报警,以及查看系统总览.";
-    public static final String MESG_SYSTEM_SCAN_GUARD = "EMOJILEFT<a href='URL'>戳我</a>EMOJIRIGHT查看当前系统总览.";
-
-    public static final String MESG_ALREADY_BUNDING = "当前微信账号已绑定,若需解绑请点击菜单进行操作.";
-    public static final String MESG_UNBLIND_SUCCESS = "解绑成功!";
-    public static final String MESG_UNBLIND_FAIL    = "解绑失败,您可能还未绑定,EMOJILEFT<a href='URL'>戳我</a>EMOJIRIGHT对当前微信账号进行绑定操作,成功绑定后可以接收系统报警,以及查看系统总览.";
-
     public static final String MESG_ERROR_DEFAULT = "未支持事件,请重试!";
-    public static final String MESG_WELCOME       = "感谢关注云兴维智微信公众平台,携手共建智能运维平台,您可以通过自定义菜单\"系统绑定\"进入绑定页面对当前微信号进行系统绑定,绑定成功后,您可以接收系统报警信息,以及查看系统总览.";
+    public static final String MESG_WELCOME       = "恭喜你成为至尊";
 
     //  wechat's template message line color
     public static final String MESG_COLOR_RED    = "#FF0000";
     public static final String MESG_COLOR_YELLOW = "#FF9900";
-    public static final String MESG_COLOR_BLACK  = "#000000";
+    public static final String MESG_COLOR_GREEN  = "#32CD32";
 
     // wechat's request handle result
     public static final boolean REQ_HANDLE_SUCCESS = true;

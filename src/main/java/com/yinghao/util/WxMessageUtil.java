@@ -47,7 +47,7 @@ public class WxMessageUtil {
      * @param appId
      * @param appSecret
      */
-    public static void sendTemplateMsg(Map<String, String> msgContent, String templateId, String toUser, String appId, String appSecret) {
+    public static void sendTemplateMsg(List<WxMpTemplateData> msgContent, String templateId, String toUser, String appId, String appSecret) {
         //  配置
         WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
         wxStorage.setAppId(appId);
@@ -60,15 +60,10 @@ public class WxMessageUtil {
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
                 .toUser(toUser)//要推送的用户openid
                 .templateId(templateId)//模版id
+                .data(msgContent)
 //                .url("https://www.baidu.com")//点击模版消息要访问的网址
                 .build();
         try {
-            if (msgContent != null) {
-                for (String name : msgContent.keySet()) {
-                    String value = msgContent.get(name);
-                    templateMessage.addData(new WxMpTemplateData(name, value));
-                }
-            }
             wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
         } catch (Exception e) {
             logger.error("发送失败: {}", e.getMessage());
