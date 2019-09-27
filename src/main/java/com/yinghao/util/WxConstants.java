@@ -35,7 +35,7 @@ public class WxConstants {
 
     //  wechat's response message
     public static final String MESG_ERROR_DEFAULT = "未支持事件,请重试!";
-    public static final String MESG_WELCOME       = "恭喜你成为至尊";
+    public static final String MESG_WELCOME       = "恭喜钟柯同学成为本公众号唯一用户.\n当前版本:v1.0;\n支持功能:课程提醒;";
 
     //  wechat's template message line color
     public static final String MESG_COLOR_RED    = "#FF0000";
