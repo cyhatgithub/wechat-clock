@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinghao.dao.CourseDetailMapper">
+  <resultMap id="BaseResultMap" type="com.yinghao.domain.CourseDetail">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="class_room" jdbcType="VARCHAR" property="classRoom" />
+    <result column="course_begin_week" jdbcType="INTEGER" property="courseBeginWeek" />
+    <result column="course_end_week" jdbcType="INTEGER" property="courseEndWeek" />
+    <result column="start_time" jdbcType="TIME" property="startTime" />
+    <result column="end_time" jdbcType="TIME" property="endTime" />
+    <result column="class_model" jdbcType="INTEGER" property="classModel" />
+    <result column="term_id" jdbcType="INTEGER" property="termId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="week_day" jdbcType="VARCHAR" property="weekDay" />
+  </resultMap>
+
+  <resultMap id="courseDetailWithTerm" type="com.yinghao.domain.CourseDetail" extends="BaseResultMap">
+    <association property="term" javaType="com.yinghao.domain.Term">
+      <result column="id" jdbcType="INTEGER" property="id" />
+      <result column="term_begin_time" jdbcType="TIMESTAMP" property="termBeginTime" />
+      <result column="term_end_time" jdbcType="TIMESTAMP" property="termEndTime" />
+      <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
+    </association>
+  </resultMap>
+  <update id="updateUserIdByTermId" parameterType="com.yinghao.domain.CourseDetail">
+    update course_detail set
+      user_id = #{userId}
+    where term_id = #{termId}
+  </update>
+
+  <select id="selectAllWithTerm" parameterType="com.yinghao.domain.CourseDetail" resultMap="courseDetailWithTerm">
+    select
+      od.*,
+      t.term_begin_time,
+      t.term_end_time from course_detail od, term t
+    where od.term_id = t.id
+  </select>
+</mapper>

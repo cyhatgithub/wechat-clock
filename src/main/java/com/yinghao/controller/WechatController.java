@@ -1,6 +1,5 @@
 package com.yinghao.controller;
 
-import com.yinghao.service.CourseServiceInter;
 import com.yinghao.service.WechatServiceInter;
 import com.yinghao.util.WxSignUtil;
 import org.slf4j.Logger;
@@ -28,8 +27,6 @@ public class WechatController {
 
     @Autowired
     WechatServiceInter wechatService;
-    @Autowired
-    CourseServiceInter courseService;
 
     private static final Logger logger = LoggerFactory.getLogger(WechatController.class);
 
@@ -61,7 +58,7 @@ public class WechatController {
                     printWriter.write(respMsg);
                     logger.info("Successful to response wechat message: {}.", respMsg);
                 } catch (Exception e) {
-                    logger.error("Failed to convert the message from weixin.");
+                    logger.error("Failed to convert the message from weixin.", e);
                 }
 
             }

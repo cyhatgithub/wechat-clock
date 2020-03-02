@@ -1,5 +1,10 @@
 package com.yinghao.service.impl;
 
+import com.yinghao.dao.CourseDetailMapper;
+import com.yinghao.dao.TermMapper;
+import com.yinghao.dao.UserMapper;
+import com.yinghao.domain.Term;
+import com.yinghao.domain.User;
 import com.yinghao.domain.wechat.req.UserEventMessage;
 import com.yinghao.domain.wechat.req.UserTextMessage;
 import com.yinghao.domain.wechat.resp.TextMessage;
@@ -9,11 +14,13 @@ import com.yinghao.util.WxMessageUtil;
 import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +30,15 @@ import java.util.Map;
 public class WechatService implements WechatServiceInter {
 
     private static final Logger logger = LoggerFactory.getLogger(WechatService.class);
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private TermMapper termMapper;
+
+    @Autowired
+    private CourseDetailMapper courseDetailMapper;
 
     @Override
     public String processRequest(HttpServletRequest request) throws IOException,DocumentException {
@@ -102,8 +118,40 @@ public class WechatService implements WechatServiceInter {
      * @return
      * @throws IOException
      */
-    public static String handleTextReq(UserTextMessage userTextMessage) {
-        return "";
+    public String handleTextReq(UserTextMessage userTextMessage) {
+        String content = userTextMessage.getContent();
+        String respContent = WxConstants.MESG_ERROR_DEFAULT;
+        String openId = userTextMessage.getFromUserName();
+        if (content.equals("DXXI")) {
+            logger.info("Wechat: user subsribe, openid {}, time {}", userTextMessage.getFromUserName(), userTextMessage.getCreateTime());
+            respContent = isBindingOrNot(openId) ? WxConstants.MESG_BINDING_ALREADY:WxConstants.MESG_SUBCRIBE_LEAD;
+        } else if (content.startsWith("BD")) {
+            //  判断是否已经绑定
+            if (isBindingOrNot(openId)) {
+                return WxConstants.MESG_BINDING_ALREADY;
+            }
+
+            respContent = WxConstants.MESG_BINDING_ERROR;
+            String[] BDs = content.split("\\*");
+            if (BDs.length == 3) {
+                //  查询学期信息
+                Term searchCondition = new Term();
+                searchCondition.setSchoolName(BDs[2]);
+                Term term = termMapper.selectOne(searchCondition);
+
+                if (term != null) {
+                    //  插入用户
+                    User user = new User();
+                    user.setName(BDs[1]);
+                    user.setOpenid(userTextMessage.getFromUserName());
+                    userMapper.insert(user);
+                    int term1Id = term.getId();
+                    courseDetailMapper.updateUserIdByTermId(userTextMessage.getFromUserName(), term1Id);
+                    respContent = WxConstants.MESG_BINDING_SUCCESS;
+                }
+            }
+        }
+        return respContent;
     }
     //  处理用户的图片消息
     public static void handleImageReq() {}
@@ -135,4 +183,15 @@ public class WechatService implements WechatServiceInter {
         return respContent;
     }
 
+    public boolean isBindingOrNot(String openId) {
+        if (openId != null && !openId.equals("")) {
+            User user = new User();
+            user.setOpenid(openId);
+            List<User> users = userMapper.select(user);
+            if (users != null && users.size() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -35,7 +35,11 @@ public class WxConstants {
 
     //  wechat's response message
     public static final String MESG_ERROR_DEFAULT = "未支持事件,请重试!";
-    public static final String MESG_WELCOME       = "恭喜钟柯同学成为本公众号唯一用户.\n当前版本:v1.0;\n支持功能:课程提醒;";
+    public static final String MESG_WELCOME       = "欢迎订阅钟柯的个人小助手微信公众号，如果您不是钟柯同学，请右上角滚出克。如果是请输入：DXXI，进行后续操作。";
+    public static final String MESG_SUBCRIBE_LEAD = "绑定引导\n请按照格式：BD*姓名*学校全名，回复本条微信消息；\n如：BD*陈英豪*重庆邮电大学";
+    public static final String MESG_BINDING_ERROR = "绑定失败，请按照正确格式回复消息。";
+    public static final String MESG_BINDING_SUCCESS = "绑定成功，你成为本助手的至尊VVVVVVVIP，当前提供：课程提醒。后续会拓展：姨妈提醒，重要事件提醒等功能。";
+    public static final String MESG_BINDING_ALREADY = "你已经绑定了哦，别重复搞哦。";
 
     //  wechat's template message line color
     public static final String MESG_COLOR_RED    = "#FF0000";

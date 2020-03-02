@@ -508,6 +508,17 @@ public class DateUtil {
         return dateString;
     }
 
+    /**
+     * date类型进行格式化输出（返回类型：String）
+     * @param date
+     * @return
+     */
+    public static String dateFormat2(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        String dateString = formatter.format(date);
+        return dateString;
+    }
+
 
     /**
      * 将"2015-08-31 21:08:06"型字符串转化为Date
