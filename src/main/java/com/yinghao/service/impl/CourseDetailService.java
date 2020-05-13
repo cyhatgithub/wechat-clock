@@ -61,7 +61,8 @@ public class CourseDetailService implements CourseDetailServiceInter {
     private void checkAndSend(List<CourseDetail> courses) {
         if (courses != null) {
             Date now = new Date();
-            String todayWeekDay = DateUtil.getWeek();  //  得到今天周几
+            //  得到今天周几
+            String todayWeekDay = DateUtil.getWeek();
             //  得到当前是第几周
             //  然后看本周是否是规定的上课时间内
             for (CourseDetail course : courses) {

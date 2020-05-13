@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.yinghao</groupId>
 	<artifactId>zzzkkk29</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>wechat-clock</name>
 	<description>zzzkkk29</description>
 
@@ -63,7 +63,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.46</version>
+			<version>8.0.11</version>
 		</dependency>
 
 		<dependency>
@@ -147,7 +147,7 @@
 					<dependency>
 						<groupId>mysql</groupId>
 						<artifactId>mysql-connector-java</artifactId>
-						<version>5.1.44</version>
+						<version>8.0.11</version>
 					</dependency>
 					<dependency>
 						<groupId>tk.mybatis</groupId>
